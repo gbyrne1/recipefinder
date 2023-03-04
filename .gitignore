@@ -21,3 +21,7 @@ htdocs/dashboard/
 perl/
 tomcat/
 mysql/bin
+*.exe
+*.ini
+/readme_de.txt
+
