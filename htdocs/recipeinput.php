@@ -1,5 +1,5 @@
 <!--
-  //requires RecipeDB and recipe table
+  //requires prior RecipeDB and recipe table for functionality
   TODO:
   Change Ingredient Data Structure
   Add ingredient counter
@@ -31,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
   
-  if (empty($_POST["ingredients"])) {
+  if (empty($_POST["ingredient"])) {
     $ingredient = "";
   } else {
-    $ingredient = test_input($_POST["ingredients"]);
+    $ingredient = test_input($_POST["ingredient"]);
   }
 
 
@@ -111,22 +111,28 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating recipe: " . $conn->error;
 }
 
-  //if is
+  
 
-//for ingriendent isnt array{if table }
-//var needs param
-$ingredientsql= "CREATE TABLE $ingredient AS 
-SELECT *
-FROM Recipes
-WHERE Recipename in('Apple Core')";
+//for ingriendent {if no table }
 
-
+$ingredientsql= "CREATE TABLE `".$ingredient."` LIKE Recipes";
 
 if ($conn->query($ingredientsql) === TRUE) {
-  echo  " Recipe stored successfully at /recipes/". $urlname;
+  echo  " Table stored successfully at ". $ingredient;
 } else {
-  echo "Error creating recipe: " . $conn->error;
+  echo "Error creating table: " . $conn->error;
 }
+
+
+//SELECT * FROM Recipes WHERE Recipename='`".$recipename."`'
+$insertsql= "INSERT INTO `".$ingredient."` SELECT * FROM Recipes WHERE RecipeName='`".$recipename."`'";
+
+if ($conn->query($insertsql) === TRUE) {
+  echo  " Row inserted successfully at ". $ingredient;
+} else {
+  echo "Error creating row: " . $conn->error;
+}
+
 
 $conn->close();
 
