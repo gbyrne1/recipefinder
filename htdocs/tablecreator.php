@@ -1,0 +1,196 @@
+<!--
+store this file and recipes.json in the htdocs folder and run this file after starting your web server at localhost/recipejsoninput.php  
+requires database called: RecipeDB
+you can change $dbname on line15 if you have a different database name in your mysql db
+ 
+
+TODO:
+ 
+-->
+<?php
+
+//variables for sql connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "RecipeDB";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+//create recipe table if it doesnt exist
+$tableExists = $conn->query("SHOW TABLES LIKE 'Recipes'");
+if($tableExists->num_rows == 0){
+$sql = "CREATE TABLE Recipes (
+	RecipeName varchar(255) NOT NULL,
+	RecipePage varchar(255) NOT NULL,
+	PRIMARY KEY (RecipeName),
+	UNIQUE (RecipeName)
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table Recipes created successfully<br>";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+}
+
+
+
+//create foodgroup table if it doesnt exist
+//cant use group as a column name because it is a reserved word
+$tableExists = $conn->query("SHOW TABLES LIKE 'FoodGroups'");
+if($tableExists->num_rows == 0){
+$sql = "CREATE TABLE FoodGroups (
+	FoodGroup varchar(255) NOT NULL,
+	PRIMARY KEY (FoodGroup),
+  UNIQUE (FoodGroup)
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table FoodGroups created successfully<br>";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+}
+
+//create ingredients table if it doesnt exist
+$tableExists = $conn->query("SHOW TABLES LIKE 'Ingredients'");
+if($tableExists->num_rows == 0){
+$sql = "CREATE TABLE Ingredients (
+	Ingredient varchar(255),
+	FoodGroup varchar(255) NOT NULL,
+	PRIMARY KEY (Ingredient),
+	FOREIGN KEY (FoodGroup) REFERENCES FoodGroups(FoodGroup)
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table Ingredients created successfully<br>";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+}
+
+//create recipeingredients table if it doesnt exist
+$tableExists = $conn->query("SHOW TABLES LIKE 'RecipesIngredients'");
+if($tableExists->num_rows == 0){
+$sql = "CREATE TABLE RecipesIngredients (
+	RecipeName varchar(255) NOT NULL,
+	Ingredient varchar(255) NOT NULL,
+  FOREIGN KEY (RecipeName) REFERENCES Recipes(RecipeName),
+	FOREIGN KEY (Ingredient) REFERENCES Ingredients(Ingredient)
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table RecipeIngredients created successfully<br>";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+}
+
+
+// specify the path to JSON file
+$jsonFilePath = 'recipes.json';
+
+// read the JSON file into a string
+$jsonString = file_get_contents($jsonFilePath);
+
+// decode the JSON string into a PHP object
+$data = json_decode($jsonString);
+
+//tracker variable for amount of recipes added
+$addedrecipes=0;
+// loop through each recipe object
+foreach ($data->recipes as $recipe) {
+   
+  //checks if recipe is in db already
+  $sql_check = "SELECT * FROM Recipes WHERE RecipeName = '$recipe->recipename'";
+$result = $conn->query($sql_check);
+if ($result->num_rows > 0) {
+    //recipe already exists
+    echo "Recipe ".$recipe->recipename." already exists in database<br>";
+  } else {
+
+    //makes url name from recipename
+    $urlname = str_replace(' ', '', $recipe->recipename);
+    $urlname.='.html';
+    $relativeurlname="recipes/".$urlname;
+
+
+    //data includes all formatting for instruction page
+$data = "<h1>Recipe Name: $recipe->recipename</h1><p>Instructions:<br><br>$recipe->recipetext</p>";
+//creates recipe page file
+file_put_contents('recipes/'.$urlname, $data);
+
+    //counts ingredients
+    $ingredientcount = count($recipe->ingredients);
+
+    // sql to insert into table, adds recipe to recipe table
+$sql = "INSERT INTO Recipes (RecipeName, RecipePage)
+VALUES (
+'$recipe->recipename',
+'$relativeurlname')";
+if ($conn->query($sql) === TRUE) {
+echo  " Recipe ".$recipe->recipename." stored successfully in recipe table<br>";
+$addedrecipes++;
+} else {
+echo "Error creating recipe: " . $conn->error;
+}
+
+   //makes ingredients tables/adds recipes to them
+   foreach ($recipe->ingredients as $ingredient) {
+    $name = $ingredient->name;
+    $foodgroup = $ingredient->foodGroup; 
+
+
+    $selectsql = "SELECT * FROM FoodGroups WHERE FoodGroup = '$foodgroup'";
+    $result = $conn->query($selectsql);
+if ($result->num_rows < 1) {
+    $foodgroupSql = "INSERT INTO FoodGroups (Foodgroup) VALUES ('$foodgroup')";
+    if ($conn->query($foodgroupSql) === TRUE) {
+        echo "Group added: " . $foodgroup . "<br>";
+    } else {
+        echo "Error creating row: " . $conn->error;
+    }}
+      
+    $selectsql = "SELECT * FROM Ingredients WHERE Ingredient = '$name'";
+    $result = $conn->query($selectsql);
+if ($result->num_rows < 1) {
+    $ingredientSql = "INSERT INTO Ingredients (Ingredient, Foodgroup) VALUES ('$name', '$foodgroup')";
+    if ($conn->query($ingredientSql) === TRUE) {
+        echo "Ingredient added successfully: " . $name . " - " . $foodgroup . "<br>";
+    } else {
+        echo "Error creating row: " . $conn->error;
+    }}
+        
+        // Check if recipe already exists in table
+//$selectsql = "SELECT * FROM `$ingredient` WHERE RecipeName = '$recipe->recipename'";
+//$result = $conn->query($selectsql);
+
+//if ($result->num_rows > 0) {
+  //echo "Recipe already exists in table: " . $ingredient;
+//} else {
+        // Insert recipe into table
+        $insertsql = "INSERT INTO RecipesIngredients (RecipeName, Ingredient) VALUES ('$recipe->recipename', '$name')";
+        if ($conn->query($insertsql) === TRUE) {
+          echo  " Row inserted successfully for" .$recipe->recipename."-". $name."<br>";
+        } else {
+          echo "Error creating row: " . $conn->error;
+        }
+      //}
+
+}
+   
+}}
+
+//prints amount of recipes added/total recipes in db
+echo $addedrecipes." recipes added.<br>";
+$sql_check = "SELECT * FROM Recipes";
+$result = $conn->query($sql_check);
+echo ($result->num_rows)." recipes in database"; 
+    
+  
+?>

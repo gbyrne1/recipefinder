@@ -1,0 +1,199 @@
+{
+    "recipes": [
+      {
+        "recipename": "Spaghetti Carbonara",
+        "recipetext": "1 lb spaghetti, 8 oz pancetta, diced 3 large eggs1/2 cup grated parmesan cheese1. Cook spaghetti according to package directions. 2. Cook pancetta in a large skillet until crispy. 3. Whisk eggs and parmesan cheese in a bowl. 4. Drain spaghetti and add to skillet with pancetta. 5. Remove skillet from heat and add egg mixture, tossing quickly to avoid scrambling the eggs. 6. Serve immediately.",
+        "ingredients": [
+          {
+            "name": "spaghetti",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "pancetta",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "egg",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "parmesan cheese",
+            "foodGroup": "Dairy and Eggs"
+          }
+        ]
+      },
+      {
+        "recipename": "Chicken Alfredo",
+        "recipetext": "1 lb fettuccine ,1 lb boneless, skinless chicken breasts, cut into strips 2 cloves garlic, minced 2 cups heavy cream 1 cup grated parmesan cheese 1. Cook fettuccine according to package directions. 2. Cook chicken in a large skillet until no longer pink. 3. Add garlic and cook for 1 minute. 4. Add heavy cream and parmesan cheese and cook until thickened. 5. Drain fettuccine and add to skillet with sauce. 6. Serve immediately.",
+        "ingredients": [
+          {
+            "name": "fettuccine",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "chicken",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "garlic",
+            "foodGroup": "Vegetables"
+          },
+          {
+            "name": "heavy cream",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "parmesan cheese",
+            "foodGroup": "Dairy and Eggs"
+          }
+        ]
+      },
+      {
+        "recipename": "Chicken Parmesan",
+        "recipetext": "1 lb spaghetti 1 lb boneless, skinless chicken breasts, cut into strips 1 cup all-purpose flour 2 eggs, beaten 1 cup panko bread crumbs 1/2 cup grated parmesan cheese 1/2 cup olive oil 1/2 cup grated mozzarella cheese 1/2 cup grated parmesan cheese 1. Cook spaghetti according to package directions. 2. Dip chicken strips in flour, then egg, then bread crumbs. 3. Heat olive oil in a large skillet over medium-high heat. 4. Add chicken strips and cook until golden brown. 5. Remove chicken from skillet and drain on paper towels. 6. Add spaghetti to skillet and toss with chicken. 7. Sprinkle with mozzarella and parmesan cheese. 8. Serve immediately.",
+        "ingredients": [
+          {
+            "name": "chicken",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "flour",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "egg",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "panko bread crumbs",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "parmesan cheese",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "olive oil",
+            "foodGroup": "Fats and Oils"
+          },
+          {
+            "name": "marinara sauce",
+            "foodGroup": "Vegetables and Fruits"
+          },
+          {
+            "name": "mozzarella cheese",
+            "foodGroup": "Dairy and Eggs"
+          }
+        ]
+      },
+      {
+        "recipename": "Chicken Cordon Bleu",
+        "recipetext": "1 lb boneless, skinless chicken breasts, cut into strips 1/2 cup all-purpose flour 2 eggs, beaten 1 cup panko bread crumbs 1/2 cup grated parmesan cheese 1/2 cup olive oil 4 slices ham 4 slices swiss cheese 1. Dip chicken strips in flour, then egg, then bread crumbs. 2. Heat olive oil in a large skillet over medium-high heat. 3. Add chicken strips and cook until golden brown. 4. Remove chicken from skillet and drain on paper towels. 5. Place a slice of ham and a slice of swiss cheese on each chicken strip. 6. Roll up chicken and secure with toothpicks. 7. Return chicken to skillet and cook until cheese is melted. 8. Serve immediately.",
+        "ingredients": [
+          {
+            "name": "chicken",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "flour",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "egg",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "panko bread crumbs",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "parmesan cheese",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "olive oil",
+            "foodGroup": "Oils and Fats"
+          },
+          {
+            "name": "ham",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "swiss cheese",
+            "foodGroup": "Dairy and Eggs"
+          }
+        ]
+      },
+      {
+        "recipename": "Pesto Pasta",
+        "recipetext": "1 lb pasta, 2 cups fresh basil leaves, 1/2 cup grated parmesan cheese, 1/2 cup pine nuts, 2 garlic cloves, 1/2 cup olive oil. 1. Cook pasta according to package directions. 2. In a food processor, combine basil, parmesan cheese, pine nuts, and garlic. 3. Pulse until ingredients are finely chopped. 4. Gradually add olive oil and continue pulsing until a paste is formed. 5. Drain pasta and toss with pesto sauce. 6. Serve immediately.",
+        "ingredients": [
+          {
+            "name": "pasta",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "basil leaves",
+            "foodGroup": "Vegetables and Herbs"
+          },
+          {
+            "name": "parmesan cheese",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "pine nuts",
+            "foodGroup": "Nuts and Seeds"
+          },
+          {
+            "name": "garlic",
+            "foodGroup": "Vegetables"
+          },
+          {
+            "name": "olive oil",
+            "foodGroup": "Fats and Oils"
+          }
+        ]
+      },
+      {
+        "recipename": "Beef Stroganoff",
+        "recipetext": "1 lb egg noodles, 1 lb beef sirloin, cut into thin strips, 1 onion, chopped, 2 cloves garlic, minced, 1 cup beef broth, 1 cup sour cream, 2 tbsp flour, 2 tbsp olive oil. 1. Cook egg noodles according to package directions. 2. In a large skillet, heat olive oil over medium-high heat. 3. Add beef strips and cook until browned. 4. Add onion and garlic and cook until softened. 5. Sprinkle flour over the mixture and stir to combine. 6. Add beef broth and bring to a boil. 7. Reduce heat and simmer until sauce thickens. 8. Remove from heat and stir in sour cream. 9. Drain noodles and serve with beef stroganoff sauce.",
+        "ingredients": [
+          {
+            "name": "egg noodles",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "beef sirloin",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "onion",
+            "foodGroup": "Vegetables"
+          },
+          {
+            "name": "garlic",
+            "foodGroup": "Vegetables"
+          },
+          {
+            "name": "beef broth",
+            "foodGroup": "Meat and Poultry"
+          },
+          {
+            "name": "sour cream",
+            "foodGroup": "Dairy and Eggs"
+          },
+          {
+            "name": "flour",
+            "foodGroup": "Grains"
+          },
+          {
+            "name": "olive oil",
+            "foodGroup": "Fats and Oils"
+          }
+        ]
+        
+        
+      }
+    ]
+  }
+  
