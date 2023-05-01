@@ -39,13 +39,27 @@ $conn->query($inclusive_search_query);
 
 $exclusive_search_query = "CREATE PROCEDURE exclusive_search()
 	 BEGIN
-	    CREATE TEMPORARY TABLE SearchResults AS
-		SELECT DISTINCT recipes.* FROM recipes INNER JOIN recipesingredients ON recipes.RecipeName = recipesingredients.RecipeName;
-    DELETE FROM SearchResults
-        WHERE NOT RecipeName in 
-        (SELECT DISTINCT RecipeName FROM SearchResults WHERE Ingredient in (SELECT DISTINCT Ingredient FROM Criteria));
-    SELECT * FROM SearchResults;
-END;";
+	 CREATE TEMPORARY TABLE SearchResults AS
+        SELECT DISTINCT recipes.*
+        FROM recipes 
+        INNER JOIN recipesingredients ON recipes.RecipeName = recipesingredients.RecipeName;
+        
+        DELETE FROM SearchResults
+        WHERE NOT RecipeName IN (
+            SELECT DISTINCT RecipeName 
+            FROM SearchResults 
+            WHERE RecipeName IN (
+                SELECT DISTINCT RecipeName 
+                FROM recipesingredients  
+                WHERE Ingredient IN (
+                    SELECT DISTINCT Ingredient 
+                    FROM Criteria
+                )
+            )
+        );
+        
+        SELECT * FROM SearchResults;
+    END;";
 $conn->query($exclusive_search_query);
 
 
