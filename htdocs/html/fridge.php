@@ -15,7 +15,9 @@
     </style>
 </head>
 <body>
-
+<div id="nav-placeholder">
+    <?php include_once("nav.php"); ?>
+  </div>
   <div class="column has-text-centered">
     
     <h2 class="title is-3">Add to your Fridge</h2>

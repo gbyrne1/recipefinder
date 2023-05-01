@@ -14,15 +14,15 @@
       
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="index.php">
+            <a class="navbar-item" href="http://localhost/index.php">
               Home
             </a>
       
-            <a class="navbar-item" href="html/browse.html">
-              Search
+            <a class="navbar-item" href="http://localhost/html/browse.php">
+              Browse
             </a>
 
-            <a class="navbar-item" href="html/fridge.php">
+            <a class="navbar-item" href="http://localhost/html/fridge.php">
               Fridge
             </a>
       
@@ -32,11 +32,11 @@
               </a>
       
               <div class="navbar-dropdown">
-                <a class="navbar-item" href="index.php">
+                <a class="navbar-item" href="http://localhost/index.php">
                   Home
                 </a>
-                <a class="navbar-item" href="browse.html">
-                  Saved
+                <a class="navbar-item" href="http://localhost/html/browse.php">
+                  Browse
                 </a>
                 <a class="navbar-item">
                   Favorites
