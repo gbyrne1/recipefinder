@@ -26,6 +26,11 @@
             margin: 5px;
         }
 
+        .button {
+            margin: 5px;
+            align-self: flex-end;
+        }
+
     </style>
 </head>
 <body>

@@ -22,7 +22,7 @@
               Search
             </a>
 
-            <a class="navbar-item" href="html/browse.html">
+            <a class="navbar-item" href="html/fridge.php">
               Fridge
             </a>
       

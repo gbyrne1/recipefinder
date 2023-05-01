@@ -15,17 +15,12 @@
       <h1 class="title is-1 has-text-light">NoCookBook</h1>
   </div>
 
-  <div class="columns has-text-centered">
-    <div class="column">
-      <h2 class="title is-3">Left Half</h2>
+  <div class="column has-text-centered">
+    
+      <h2 class="title is-3">Select your ingredients</h2>
       <?php include_once("html/ingredientselector.php"); ?>
     </div>
-    <div class="column">
-      <h2 class="title is-3">Right Half</h2>
-      <p>Insert content for the right half of the page here</p>
-    </div>
-  </div>
-
+    
 
 
 </body>
