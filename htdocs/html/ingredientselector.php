@@ -97,7 +97,10 @@
 				//insert into user/fridge table here
 				//$sql = "INSERT INTO UserFridge (Ingredient) VALUES ('$ingredient')";
 
-			 }}}
+			 }}
+             //empty add fridge button clicked
+            else echo"<h1>empty</h1>";
+            }
 			
 			 //chechk if inclusive SEARCH RECIPES button clicked
 			if (isset($_POST["searchRecipes"])) {
@@ -128,10 +131,11 @@
                 }
                 echo "</div>";}
             else {
-                echo "<h1>No results found</h1>";
+                echo "<h1>No valid results found</h1>";
             }
 		  }
-			
+		//empty add fridge button clicked
+        else echo"<h1>empty</h1>";	
 		}
      //chechk if exclusive SEARCH RECIPES button clicked
 			if (isset($_POST["exsearchRecipes"])) {
