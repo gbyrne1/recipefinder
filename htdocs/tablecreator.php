@@ -13,7 +13,7 @@ TODO:
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "RecipeDB";
+$dbname = "test";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
@@ -27,6 +27,7 @@ if($tableExists->num_rows == 0){
 $sql = "CREATE TABLE Recipes (
 	RecipeName varchar(255) NOT NULL,
 	RecipePage varchar(255) NOT NULL,
+  Rating DOUBLE(2,1),
 	PRIMARY KEY (RecipeName),
 	UNIQUE (RecipeName)
 )";
@@ -37,7 +38,6 @@ if ($conn->query($sql) === TRUE) {
   echo "Error creating table: " . $conn->error;
 }
 }
-
 
 
 //create foodgroup table if it doesnt exist
@@ -61,7 +61,7 @@ if ($conn->query($sql) === TRUE) {
 $tableExists = $conn->query("SHOW TABLES LIKE 'Ingredients'");
 if($tableExists->num_rows == 0){
 $sql = "CREATE TABLE Ingredients (
-	Ingredient varchar(255),
+	Ingredient varchar(255) NOT NULL,
 	FoodGroup varchar(255) NOT NULL,
 	PRIMARY KEY (Ingredient),
 	FOREIGN KEY (FoodGroup) REFERENCES FoodGroups(FoodGroup)
@@ -121,7 +121,7 @@ if ($result->num_rows > 0) {
 
 
     //data includes all formatting for instruction page
-$data = "<h1>Recipe Name: $recipe->recipename</h1><p>Instructions:<br><br>$recipe->recipetext</p>";
+$data = "<h1>Recipe Name: $recipe->recipename</h1><h2>Rating:</h2><p>Instructions:<br><br>$recipe->recipetext</p>";
 //creates recipe page file
 file_put_contents('recipes/'.$urlname, $data);
 
@@ -129,12 +129,13 @@ file_put_contents('recipes/'.$urlname, $data);
     $ingredientcount = count($recipe->ingredients);
 
     // sql to insert into table, adds recipe to recipe table
-$sql = "INSERT INTO Recipes (RecipeName, RecipePage)
+$sql = "INSERT INTO Recipes (RecipeName, RecipePage, Rating)
 VALUES (
 '$recipe->recipename',
-'$relativeurlname')";
+'$relativeurlname',
+0)";
 if ($conn->query($sql) === TRUE) {
-echo  " Recipe ".$recipe->recipename." stored successfully in recipe table<br>";
+echo  "<br><br> Recipe ".$recipe->recipename." stored successfully in recipe table<br>";
 $addedrecipes++;
 } else {
 echo "Error creating recipe: " . $conn->error;
@@ -161,18 +162,33 @@ if ($result->num_rows < 1) {
 if ($result->num_rows < 1) {
     $ingredientSql = "INSERT INTO Ingredients (Ingredient, Foodgroup) VALUES ('$name', '$foodgroup')";
     if ($conn->query($ingredientSql) === TRUE) {
-        echo "Ingredient added successfully: " . $name . " - " . $foodgroup . "<br>";
+        echo "Ingredient added successfully: " . $name . "<br>";
     } else {
         echo "Error creating row: " . $conn->error;
     }}
         
-        // Check if recipe already exists in table
-//$selectsql = "SELECT * FROM `$ingredient` WHERE RecipeName = '$recipe->recipename'";
-//$result = $conn->query($selectsql);
 
-//if ($result->num_rows > 0) {
-  //echo "Recipe already exists in table: " . $ingredient;
-//} else {
+
+        // Check if recipe rating table already exists      
+        $tableExists = $conn->query("SHOW TABLES LIKE '$name'");
+        if($tableExists->num_rows == 0){
+  //creates recipe rating table for each ingredient
+  //,
+	//PRIMARY KEY (User),
+	//FOREIGN KEY (User) REFERENCES RegUsers(Email)
+  $sql = "CREATE TABLE `$name` (
+    User varchar(255),
+	Rating Double (2,1) NOT NULL DEFAULT 0.0,
+	Comments varchar(255)
+
+  
+  )";
+  if ($conn->query($sql) === TRUE) {
+    echo  " Rating table inserted successfully for " . $name."<br>";
+  } else {
+    echo "Error creating row: " . $conn->error;
+  }
+} 
         // Insert recipe into table
         $insertsql = "INSERT INTO RecipesIngredients (RecipeName, Ingredient) VALUES ('$recipe->recipename', '$name')";
         if ($conn->query($insertsql) === TRUE) {
@@ -180,7 +196,7 @@ if ($result->num_rows < 1) {
         } else {
           echo "Error creating row: " . $conn->error;
         }
-      //}
+      
 
 }
    

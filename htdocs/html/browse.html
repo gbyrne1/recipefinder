@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<!-- nav bar -->
+<style>
+ul { 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #334133;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px 19px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+</style>
+<!-- font -->
+<style>
+html * {
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: helvetica;
+}
+html h1 {
+  font-size: 30px;
+  line-height: 1.5;
+  font-family: helvetica;
+}
+</style>
+</head>
+<body>
+<!-- nav bar tabs -->
+<!-- <ul>
+  <li><a href="#home">Home</a></li>
+  <li><a class="active" href="#browse">Browse</a></li>
+  <li style="float:right"><a href="login.html">Log In</a></li>
+</ul> -->
+
+<div id="nav-placeholder">
+
+</div>
+
+<script>
+$(function(){
+  $("#nav-placeholder").load("nav.html");
+});
+</script>
+
+<h1>search page</h1>
+
+</body>
