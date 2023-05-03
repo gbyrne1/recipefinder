@@ -167,28 +167,6 @@ if ($result->num_rows < 1) {
         echo "Error creating row: " . $conn->error;
     }}
         
-
-
-        // Check if recipe rating table already exists      
-        $tableExists = $conn->query("SHOW TABLES LIKE '$name'");
-        if($tableExists->num_rows == 0){
-  //creates recipe rating table for each ingredient
-  //,
-	//PRIMARY KEY (User),
-	//FOREIGN KEY (User) REFERENCES RegUsers(Email)
-  $sql = "CREATE TABLE `$name` (
-    User varchar(255),
-	Rating Double (2,1) NOT NULL DEFAULT 0.0,
-	Comments varchar(255)
-
-  
-  )";
-  if ($conn->query($sql) === TRUE) {
-    echo  " Rating table inserted successfully for " . $name."<br>";
-  } else {
-    echo "Error creating row: " . $conn->error;
-  }
-} 
         // Insert recipe into table
         $insertsql = "INSERT INTO RecipesIngredients (RecipeName, Ingredient) VALUES ('$recipe->recipename', '$name')";
         if ($conn->query($insertsql) === TRUE) {
@@ -199,6 +177,29 @@ if ($result->num_rows < 1) {
       
 
 }
+
+
+        // Check if recipe rating table already exists  
+
+        $tableExists = $conn->query("SHOW TABLES LIKE '$recipe->recipename'");
+        if($tableExists->num_rows == 0){
+  //creates recipe rating table for each ingredient
+  //,
+	//PRIMARY KEY (User),
+	//FOREIGN KEY (User) REFERENCES RegUsers(Email)
+  $sql = "CREATE TABLE `$recipe->recipename` (
+    User varchar(255),
+	Rating Double (2,1) NOT NULL DEFAULT 0.0,
+	Comments varchar(255)
+
+  
+  )";
+  if ($conn->query($sql) === TRUE) {
+    echo  " Rating table inserted successfully for " . $recipe->recipename."<br>";
+  } else {
+    echo "Error creating row: " . $conn->error;
+  }
+} 
    
 }}
 
