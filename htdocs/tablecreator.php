@@ -119,10 +119,38 @@ if ($result->num_rows > 0) {
     $urlname.='.html';
     $relativeurlname="recipes/".$urlname;
 
+//data includes all formatting for instruction page
+$data = '<html>
+    <head>
+        <link rel="stylesheet" href="/css/recipeFormat.css">
+    </head>
+    <body>
+        <h1>' . $recipe->recipename . '</h1>
+        <div id="rating"></div>
 
-    //data includes all formatting for instruction page
-$data = "<h1>Recipe Name: $recipe->recipename</h1><h2>Rating:</h2><p>Instructions:<br><br>$recipe->recipetext</p>";
-//creates recipe page file
+        <div id="image">
+             <img src="../images/' . $recipe->recipename . '.png" alt="">
+        </div>
+
+        <br><h2>Ingredients:</h2>
+        <ul>';
+foreach ($recipe->ingredients as $ingredient) {
+    $data .= '<li>' . $ingredient->name . '</li>';
+}
+$data .= '</ul>
+        <br><h2>' . $recipe->recipetext . '</h2>
+        <ol>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+
+    </body>
+</html>';
+
 file_put_contents('recipes/'.$urlname, $data);
 
     //counts ingredients
