@@ -35,21 +35,6 @@ if ($result->num_rows == 0) {
   }
 }
 
-// Check if the Fridge table exists
-$result = $conn->query("SHOW TABLES LIKE 'Fridge'");
-if ($result->num_rows == 0) {
-  // Create the Fridge table if it doesn't exist
-  $sql = "CREATE TABLE Fridge (
-    Ingredient varchar(255) NOT NULL,
-    Email varchar(255),
-    PRIMARY KEY (Ingredient, Email),
-    FOREIGN KEY (Ingredient) REFERENCES Ingredients(Ingredient),
-    FOREIGN KEY (Email) REFERENCES RegUsers(Email)
-  )";
-  if ($conn->query($sql) === FALSE) {
-    echo "Error creating table: " . $conn->error;
-  }
-}
 
 //create recipe table if it doesnt exist
 $tableExists = $conn->query("SHOW TABLES LIKE 'Recipes'");
@@ -119,6 +104,22 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error creating table: " . $conn->error;
 }
+}
+
+// Check if the Fridge table exists
+$result = $conn->query("SHOW TABLES LIKE 'Fridge'");
+if ($result->num_rows == 0) {
+  // Create the Fridge table if it doesn't exist
+  $sql = "CREATE TABLE Fridge (
+    Ingredient varchar(255) NOT NULL,
+    Email varchar(255),
+    PRIMARY KEY (Ingredient, Email),
+    FOREIGN KEY (Ingredient) REFERENCES Ingredients(Ingredient),
+    FOREIGN KEY (Email) REFERENCES RegUsers(Email)
+  )";
+  if ($conn->query($sql) === FALSE) {
+    echo "Error creating table: " . $conn->error;
+  }
 }
 
 
@@ -246,11 +247,11 @@ if ($result->num_rows < 1) {
 	//PRIMARY KEY (User),
 	//FOREIGN KEY (User) REFERENCES RegUsers(Email)
   $sql = "CREATE TABLE `$recipe->recipename` (
-    User varchar(255),
+    Email varchar(255),
 	Rating Double (2,1) NOT NULL DEFAULT 0.0,
-	Comments varchar(255)
-  PRIMARY KEY (User),
-  FOREIGN KEY (User) REFERENCES RegUsers(Email)
+	Comments varchar(255),
+  PRIMARY KEY (Email),
+  FOREIGN KEY (Email) REFERENCES RegUsers(Email)
   )";
   if ($conn->query($sql) === TRUE) {
     echo  " Rating table inserted successfully for " . $recipe->recipename."<br>";
