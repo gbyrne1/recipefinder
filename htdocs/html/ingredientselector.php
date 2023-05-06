@@ -94,18 +94,25 @@
 
 			 // Check if ADD TO FRIDGE  button was clicked
 			 if (isset($_POST["addToFridge"])) {
+
+                // Check if the user's email is set
+    if (isset($_SESSION["email"])) {
+        $email = $_SESSION["email"];
 			// Check if the ingredient array is set
           	if(isset($_POST["ingredient"])){
 			$selectedIngredients = $_POST["ingredient"];
 			foreach($selectedIngredients as $ingredient){
-				echo"<h1>$ingredient</h1>";
 				//insert into user/fridge table here
-				//$sql = "INSERT INTO UserFridge (Ingredient) VALUES ('$ingredient')";
+                $sql = "INSERT INTO Fridge (Ingredient, Email) VALUES ('$ingredient', '$email')";
+	        if ($conn->query($sql) === FALSE) {
+		    echo "Error inserting data: " . $conn->error;
+	        }
 
-			 }}
+			 }}}
              //empty add fridge button clicked
-            else echo"<h1>empty</h1>";
-            }
+            else {
+                echo"<h1>Log on to use Fridge Storage</h1>";
+            } }
 			
 			 //chechk if inclusive SEARCH RECIPES button clicked
 			if (isset($_POST["searchRecipes"])) {
