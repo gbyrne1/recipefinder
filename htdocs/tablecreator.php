@@ -136,7 +136,7 @@ $addedrecipes=0;
 foreach ($data->recipes as $recipe) {
 	$recipename = str_replace(' ', '', $recipe->recipename);
 	//checks if recipe is in db already
-	$sql_check = "SELECT * FROM Recipes WHERE RecipeName = '$recipename'";
+	$sql_check = "SELECT * FROM Recipes WHERE RecipeName = '$recipe->recipename'";
 $result = $conn->query($sql_check);
 if ($result->num_rows > 0) {
     //recipe already exists
