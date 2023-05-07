@@ -159,7 +159,7 @@
                 }
                 echo "</div>";}
             else {
-                echo "<h1>No valid results found</h1>";
+                echo "<h1 class='title is-1 has-text-danger has-text-centered'>No results found</h1>";
             }
 		  }
 
@@ -174,8 +174,7 @@
                 // Check if the ingredient array is set
               if(isset($_POST["ingredient"])){
                 $selectedIngredients = $_POST["ingredient"];
-               
-                echo "<p>No available</p>";
+            
 
 
                 foreach($selectedIngredients as $ingredient){
@@ -209,7 +208,7 @@
                     }
                     echo "</div>";}
                 else {
-                    echo "<h1>No results found</h1>";
+                    echo "<h1 class='title is-1 has-text-danger has-text-centered'>No results found</h1>";
                 }
               
                 
