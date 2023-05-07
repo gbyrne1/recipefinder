@@ -30,18 +30,18 @@ $conn->query($insert_criteria_query);
 
 //inserts the fridge into the search criteria if enabled
 //write as "fridge_display('$User')"
-$insert_fridge = "CREATE PROCEDURE insert_fridge(IN user varchar(255))
+$include_fridge = "CREATE PROCEDURE include_fridge(IN user varchar(255))
 	 BEGIN
-	 INSERT INTO Criteria (Ingredient) SELECT Ingredient FROM Fridge WHERE Fridge.Email = user;
+	 INSERT INTO Criteria SELECT Ingredient FROM Fridge WHERE Fridge.Email = user;
 	 END;";
-$conn->query($insert_fridge);
+$conn->query($include_fridge);
 
 $inclusive_search_query = "CREATE PROCEDURE inclusive_search()
 	BEGIN
 	    SELECT DISTINCT recipes.* FROM ((recipes
 	    INNER JOIN RecipesIngredients ON recipes.RecipeName = RecipesIngredients.RecipeName)
 	    INNER JOIN Criteria ON RecipesIngredients.Ingredient = Criteria.Ingredient)
-		ORDER BY Rating;
+		ORDER BY Rating DESC;
 	 END;";
 $conn->query($inclusive_search_query);
 
@@ -55,7 +55,7 @@ $exclusive_search_query = "CREATE PROCEDURE exclusive_search()
 	
 	SELECT DISTINCT recipes.* FROM (recipes
 	    INNER JOIN SearchResults ON recipes.RecipeName = SearchResults.RecipeName) 
-		ORDER BY Rating;
+		ORDER BY Rating DESC;
 	
     END;";
 $conn->query($exclusive_search_query);
@@ -78,24 +78,18 @@ $conn->query($comment_display);
 */
 //creates user fridge
 //Write as "fridge_create('$User')"
-/*$fridge_create = "CREATE PROCEDURE fridge_create(IN user varchar(255))
+$fridge_add = "CREATE PROCEDURE fridge_add(IN user varchar(255), ingred varchar(255))
 	 BEGIN
-	    CREATE TABLE user (
-			Ingredient varchar(255) NOT NULL,
-			Email varchar(255),
-			PRIMARY KEY (Ingredient, Email),
-			FOREIGN KEY (Ingredient) REFERENCES Ingredients(Ingredient),
-			FOREIGN KEY (Email) REFERENCES RegUsers(Email)
-		);
+	    INSERT IGNORE INTO Fridge (Email, Ingredient) VALUES (user, ingred);
 	 END;";
-$conn->query($fridge_create);
-*/
+$conn->query($fridge_add);
 //Write as "fridge_display('$User')"
 $fridge_display = "CREATE PROCEDURE fridge_display(IN user varchar(255))
 	 BEGIN
-	    SELECT *
-		FROM Fridge
-		WHERE Email = user;
+	    SELECT FoodGroup,Fridge.Ingredient
+		FROM Ingredients
+		INNER JOIN Fridge ON Ingredients.Ingredient = Fridge.Ingredient 
+		WHERE Fridge.Email = user;
 	 END;";
 $conn->query($fridge_display);
 

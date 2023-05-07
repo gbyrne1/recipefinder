@@ -120,22 +120,27 @@
 			
 			 //chechk if inclusive SEARCH RECIPES button clicked
 			if (isset($_POST["searchRecipes"])) {
+
+                  //makes criteria table if theres ingredients for it
+                  if(isset($_POST["ingredient"])||isset($_SESSION["email"])){
+                    $conn->query("CALL create_criteria()");
+                }
+                 //inserts fridge to criteria if logged in
+            if(isset($_SESSION["email"])){
+                $email = $_SESSION["email"];
+                $conn->query("CALL include_fridge('$email')");
+            }
 			// Check if the ingredient array is set
 		  if(isset($_POST["ingredient"])){
 			$selectedIngredients = $_POST["ingredient"];
 			$conn->query("CALL create_criteria()");
-
-            //inserts fridge to criteria if logged in
-            if(isset($_SESSION["email"])){
-                $email = $_SESSION["email"];
-                $conn->query("CALL insert_fridge('$email')");
-            }
-
             foreach($selectedIngredients as $ingredient){
 				//echo"<h1>$ingredient</h1>";
                 $ingred = mysqli_real_escape_string($conn, $ingredient);
                 $conn->query("CALL insert_criteria('$ingred')");
-		    }
+		    }}
+
+            //call search procedure
             $search_results = $conn->query("CALL inclusive_search()");
             if ($search_results->num_rows > 0) { echo "<div class='columns is-multiline'>";
                 while($row = $search_results->fetch_assoc()) {
@@ -157,26 +162,35 @@
                 echo "<h1>No valid results found</h1>";
             }
 		  }
-		//empty add fridge button clicked
-        else echo"<h1>empty</h1>";	
-		}
+
      //chechk if exclusive SEARCH RECIPES button clicked
 			if (isset($_POST["exsearchRecipes"])) {
+
+
+                //makes criteria table if theres ingredients for it
+                if(isset($_POST["ingredient"])||isset($_SESSION["email"])){
+                    $conn->query("CALL create_criteria()");
+                }
                 // Check if the ingredient array is set
               if(isset($_POST["ingredient"])){
                 $selectedIngredients = $_POST["ingredient"];
-                $conn->query("CALL create_criteria()");
-                 //inserts fridge to criteria if logged in
-            if(isset($_SESSION["email"])){
-                $email = $_SESSION["email"];
-                $conn->query("CALL insert_fridge('$email')");
-            }
+               
+                echo "<p>No available</p>";
+
 
                 foreach($selectedIngredients as $ingredient){
                     //echo"<h1>$ingredient</h1>";
                     $ingred = mysqli_real_escape_string($conn, $ingredient);
                     $conn->query("CALL insert_criteria('$ingred')");
                 }
+            }
+
+                   //inserts fridge to criteria if logged in
+            if(isset($_SESSION["email"])){
+                $email = $_SESSION["email"];
+               
+                $conn->query("CALL include_fridge('$email')");
+            }
                 $search_results = $conn->query("CALL exclusive_search()");
                 if ($search_results->num_rows > 0) { echo "<div class='columns is-multiline'>";
                     while($row = $search_results->fetch_assoc()) {
@@ -197,7 +211,7 @@
                 else {
                     echo "<h1>No results found</h1>";
                 }
-              }
+              
                 
             }
     

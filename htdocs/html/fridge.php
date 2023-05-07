@@ -18,12 +18,51 @@
 <div id="nav-placeholder">
     <?php include_once("nav.php"); ?>
   </div>
+  <div class="section has-text-centered">
+      <h2 class="title is-1 has-text-grey-dark">Fridge Contents</h2>
+  </div>
+  <?php
+	$servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "test";
+        $conn = new mysqli($servername, $username, $password, $dbname);
+	if(isset($_SESSION["email"])){
+                $email = $_SESSION["email"];
+            }
+	$fridge = $conn->query("CALL fridge_display('$email')");
+	if ($fridge->num_rows > 0){
+		echo "<div class='columns is-multiline'>";
+		$group = 'start';
+		while($row = $fridge->fetch_assoc()) {
+			if($group != $row["FoodGroup"]){
+				if($group != 'start'){
+					echo "</div>";
+					echo "</div>";
+					echo "</div>";
+				}
+				echo "<div class='column is-one-third'>";
+				echo "<div class='card card-style is-warning'>";
+				echo "<div class='card-content is-fullwidth is-warning'>";
+				echo "<p class='title'>" . $row["FoodGroup"] . "</p></a>";
+				$group = $row["FoodGroup"];
+			}
+			echo "<p>" . $row["Ingredient"] . "</p>";
+		}
+		echo "</div>";
+		echo "</div>";
+		echo "</div>";
+		echo "</div>";
+	}
+	else {
+		echo "Your Fridge is empty.";
+	}
+$conn -> close();
+?>
+<div class="section has-text-centered">
+      <h2 class="title is-1 has-text-grey-dark">Add to Fridge</h2>
+  </div>
   <div class="column has-text-centered">
-    
-    <h2 class="title is-3">Add to your Fridge</h2>
     <?php include_once("ingredientselector.php"); ?>
   </div>
   
-    
-</body>
-</html>
