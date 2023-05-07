@@ -69,7 +69,7 @@
 		
         // Display the ingredient selector with sub-boxes for each category
 		echo "<form method='POST'>";
-        echo "<div id='ingredient-selector' class='box has-background-warning'>";
+        echo "<div id='ingredient-selector' class='box is-centered is-flex has-background-warning'>";
         foreach ($categories as $category => $ingredients) {
             echo "<div class='category-box'>";
             echo "<h3 class='subtitle is-3'>$category</h3>";
@@ -111,7 +111,11 @@
 			 }}}
              //empty add fridge button clicked
             else {
+                echo "<div class='column is-one-third'>";
+                echo "<div class='card card-style is-warning justify-content-center '>";
                 echo"<h1>Log on to use Fridge Storage</h1>";
+                echo "</div>";
+                echo "</div>";
             } }
 			
 			 //chechk if inclusive SEARCH RECIPES button clicked
@@ -120,6 +124,13 @@
 		  if(isset($_POST["ingredient"])){
 			$selectedIngredients = $_POST["ingredient"];
 			$conn->query("CALL create_criteria()");
+
+            //inserts fridge to criteria if logged in
+            if(isset($_SESSION["email"])){
+                $email = $_SESSION["email"];
+                $conn->query("CALL insert_fridge('$email')");
+            }
+
             foreach($selectedIngredients as $ingredient){
 				//echo"<h1>$ingredient</h1>";
                 $ingred = mysqli_real_escape_string($conn, $ingredient);
@@ -155,6 +166,12 @@
               if(isset($_POST["ingredient"])){
                 $selectedIngredients = $_POST["ingredient"];
                 $conn->query("CALL create_criteria()");
+                 //inserts fridge to criteria if logged in
+            if(isset($_SESSION["email"])){
+                $email = $_SESSION["email"];
+                $conn->query("CALL insert_fridge('$email')");
+            }
+
                 foreach($selectedIngredients as $ingredient){
                     //echo"<h1>$ingredient</h1>";
                     $ingred = mysqli_real_escape_string($conn, $ingredient);

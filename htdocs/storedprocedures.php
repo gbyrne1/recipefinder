@@ -32,7 +32,7 @@ $conn->query($insert_criteria_query);
 //write as "fridge_display('$User')"
 $insert_fridge = "CREATE PROCEDURE insert_fridge(IN user varchar(255))
 	 BEGIN
-	    INSERT INTO Criteria SELECT * FROM Fridge WHERE Email = user;
+	 INSERT INTO Criteria (Ingredient) SELECT Ingredient FROM Fridge WHERE Fridge.Email = user;
 	 END;";
 $conn->query($insert_fridge);
 

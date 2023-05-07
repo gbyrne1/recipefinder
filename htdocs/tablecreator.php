@@ -35,7 +35,6 @@ if ($result->num_rows == 0) {
   }
 }
 
-
 //create recipe table if it doesnt exist
 $tableExists = $conn->query("SHOW TABLES LIKE 'Recipes'");
 if($tableExists->num_rows == 0){
@@ -113,15 +112,14 @@ if ($result->num_rows == 0) {
   $sql = "CREATE TABLE Fridge (
     Ingredient varchar(255) NOT NULL,
     Email varchar(255),
-    PRIMARY KEY (Ingredient, Email),
     FOREIGN KEY (Ingredient) REFERENCES Ingredients(Ingredient),
-    FOREIGN KEY (Email) REFERENCES RegUsers(Email)
+    FOREIGN KEY (Email) REFERENCES RegUsers(Email),
+	CONSTRAINT PK_Person PRIMARY KEY (Ingredient, Email)
   )";
   if ($conn->query($sql) === FALSE) {
     echo "Error creating table: " . $conn->error;
   }
 }
-
 
 // specify the path to JSON file
 $jsonFilePath = 'recipes.json';
@@ -136,9 +134,9 @@ $data = json_decode($jsonString);
 $addedrecipes=0;
 // loop through each recipe object
 foreach ($data->recipes as $recipe) {
-   
-  //checks if recipe is in db already
-  $sql_check = "SELECT * FROM Recipes WHERE RecipeName = '$recipe->recipename'";
+	$recipename = str_replace(' ', '', $recipe->recipename);
+	//checks if recipe is in db already
+	$sql_check = "SELECT * FROM Recipes WHERE RecipeName = '$recipename'";
 $result = $conn->query($sql_check);
 if ($result->num_rows > 0) {
     //recipe already exists
@@ -146,40 +144,74 @@ if ($result->num_rows > 0) {
   } else {
 
     //makes url name from recipename
-    $urlname = str_replace(' ', '', $recipe->recipename);
-    $urlname.='.html';
+    $urlname = $recipename . '.php';
     $relativeurlname="recipes/".$urlname;
 
 //data includes all formatting for instruction page
 $data = '<html>
     <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
         <link rel="stylesheet" href="/css/recipeFormat.css">
     </head>
     <body>
         <h1>' . $recipe->recipename . '</h1>
-        <div id="rating"></div>
 
         <div id="image">
-             <img src="../images/' . $recipe->recipename . '.png" alt="">
+             <img src="../images/' . $recipename . '.png" alt="">
         </div>
 
         <br><h2>Ingredients:</h2>
         <ul>';
-foreach ($recipe->ingredients as $ingredient) {
-    $data .= '<li>' . $ingredient->name . '</li>';
+foreach ($recipe->ingAmount as $ingredient) {
+    $data .= '<li>' . $ingredient . '</li>';
 }
 $data .= '</ul>
-        <br><h2>' . $recipe->recipetext . '</h2>
-        <ol>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ol>
+        <br><h2>Instructions:</h2>
+        <ol>';
+foreach ($recipe->recipetext as $instruction) {
+    $data .= '<li>' . $instruction . '</li>';
+}
+$data .='</ol>
+<?php
+        // Connect to the database
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "test";
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    </body>
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+		
+		$reviews = $conn->query("SELECT Rating, Comments, User
+			FROM ' . $recipename . '
+			WHERE (Comments <> \'\');");
+                if ($reviews->num_rows > 0){
+					echo "<div class=\'columns is-multiline\'>";
+                    while($row = $reviews->fetch_assoc()) {
+                        echo "<div class=\'column is-one-third\'>";
+                        echo "<div class=\'card card-style is-warning\'>";
+                        echo "<div class=\'card-content is-fullwidth is-warning\'>";
+                        echo "<p class=\'title\'>" . $row["Rating"] . " Stars</p></a>";
+                        echo "<p>" . $row["Comments"] . "</p>";
+						echo "<p>User: " . $row["User"] . "</p>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                    echo "</div>";
+				}
+		else {
+			echo "No comments yet. Be the first!";
+		}
+		
+		
+        // Close the database connection
+        $conn->close();
+    ?>
+</body>
 </html>';
 
 file_put_contents('recipes/'.$urlname, $data);
@@ -242,16 +274,16 @@ if ($result->num_rows < 1) {
 
         $tableExists = $conn->query("SHOW TABLES LIKE '$recipe->recipename'");
         if($tableExists->num_rows == 0){
-  //creates recipe rating table for each ingredient
+  //creates rating table for each recipe
   //,
 	//PRIMARY KEY (User),
 	//FOREIGN KEY (User) REFERENCES RegUsers(Email)
-  $sql = "CREATE TABLE `$recipe->recipename` (
-    Email varchar(255),
+  $sql = "CREATE TABLE `$recipename` (
+    User varchar(255),
 	Rating Double (2,1) NOT NULL DEFAULT 0.0,
 	Comments varchar(255),
-  PRIMARY KEY (Email),
-  FOREIGN KEY (Email) REFERENCES RegUsers(Email)
+  PRIMARY KEY (User),
+  FOREIGN KEY (User) REFERENCES RegUsers(Email)
   )";
   if ($conn->query($sql) === TRUE) {
     echo  " Rating table inserted successfully for " . $recipe->recipename."<br>";

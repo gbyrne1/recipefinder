@@ -11,7 +11,7 @@ body {
 }
 
 input[type=text], input[type=password], select {
-  width: 20%;
+  
   padding: 12px 20px;
   margin: 8px 0px;
   border: 1px solid #232423;
@@ -58,30 +58,32 @@ html h1 {
     <?php include_once("nav.php"); ?>
   </div>
 
-
-
-
-<!-- sign up -->
-  <div class="container" style="text-align:center">
+  <div class="column is-one-third is-offset-one-third">
     <h1>Sign Up</h1>
-	
-	<!-- input boxes-->
-    <label for="email"><b>Email<br></b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
-	
-	<br><br>
-    <label for="uname"><b>Username<br></b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-	
-	<br><br>
-    <label for="psw"><b>Password<br></b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-	
-    <br><br>
-	<!--login button, does nothing-->
-    <input type="submit" value="Sign Up">
-	<!--link back to login page-->
-	<p>Already have an account? <a href="login.html">Log In</a></p>
+  <?php
+	if (isset($_GET['error'])) {
+		echo "<p style='color: red'>" . $_GET['error'] . "</p>";
+	}
+	?>
+  <form class="box" method="POST" action="signup_handler.php">
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="email" name="email" placeholder="e.g. alex@example.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input class="input" type="password" name="password" placeholder="********">
+        </div>
+      </div>
+
+      <button class="button is-primary" type="submit" name="submit">Sign up</button>
+      
+      <p>Already have an account? <a href="http://localhost/html/login.php">Log In</a></p>
+    </form>
   </div>
 </body>
 </html>

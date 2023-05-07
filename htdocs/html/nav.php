@@ -51,6 +51,13 @@
       
           <div class="navbar-end">
             <div class="navbar-item">
+            <?php if (isset($_SESSION["email"])) { ?>
+                    <div class="buttons">
+                        <a class="button is-light" href="http://localhost/html/logout.php">
+                            Log out
+                        </a>
+                    </div>
+                <?php } else { ?>
               <div class="buttons">
                 <a class="button is-primary" href="http://localhost/html/signup.php">
                   <strong>Sign up</strong>
@@ -59,6 +66,7 @@
                   Log in
                 </a>
               </div>
+              <?php } ?>
             </div>
           </div>
         </div>

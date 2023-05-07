@@ -20,10 +20,12 @@ if (isset($_POST["submit"])) {
   if ($result->num_rows > 0) {
     // Start a session for the user and redirect to the home page
     $_SESSION["email"] = $email;
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
   } else {
     // If there is no matching email and password combination, show an error message
+    
+    header("Location: ./login.php?error=Invalid%20email%20or%20password");
     echo "Invalid email or password";
   }
 }

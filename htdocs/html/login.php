@@ -17,9 +17,13 @@ body {
     <?php include_once("nav.php"); ?>
   </div>
 
- 
 
   <div class="column is-one-third is-offset-one-third">
+  <?php
+	if (isset($_GET['error'])) {
+		echo "<p style='color: red'>" . $_GET['error'] . "</p>";
+	}
+	?>
   <form class="box" method="POST" action="login_handler.php">
       <div class="field">
         <label class="label">Email</label>
@@ -38,7 +42,7 @@ body {
       <button class="button is-primary" type="submit" name="submit">Sign in</button>
       
       <div>Don't have an account? 
-        <a href="signup.html">Sign up</a>
+        <a href="http://localhost/html/signup.php">Sign up</a>
       </div>
     </form>
   </div>

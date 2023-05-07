@@ -31,8 +31,7 @@
 
 
         // Query the database for all ingredients
-        $sql = "SELECT * FROM Recipes
-	ORDER BY Rating;";
+        $sql = "SELECT * FROM Recipes ORDER BY Rating DESC;";
         $result = $conn->query($sql);
   
     // Create an array of categories and their ingredients
@@ -53,5 +52,3 @@
  echo "</div>";
              } }
 ?>
-
-</body>
