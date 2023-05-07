@@ -103,7 +103,7 @@
 			$selectedIngredients = $_POST["ingredient"];
 			foreach($selectedIngredients as $ingredient){
 				//insert into user/fridge table here
-                $sql = "INSERT INTO Fridge (Ingredient, Email) VALUES ('$ingredient', '$email')";
+                $sql = "INSERT IGNORE INTO Fridge (Ingredient, Email) VALUES ('$ingredient', '$email')";
 	        if ($conn->query($sql) === FALSE) {
 		    echo "Error inserting data: " . $conn->error;
 	        }

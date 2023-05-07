@@ -1,4 +1,4 @@
-
+<?php session_start(); ?>
     <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item" href="https://bulma.io">
@@ -52,10 +52,10 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-primary" href="html/signup.html">
+                <a class="button is-primary" href="http://localhost/html/signup.php">
                   <strong>Sign up</strong>
                 </a>
-                <a class="button is-light" href="html/login.html">
+                <a class="button is-light" href="http://localhost/html/login.php">
                   Log in
                 </a>
               </div>
