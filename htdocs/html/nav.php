@@ -1,9 +1,7 @@
 <?php session_start(); ?>
     <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-          </a>
+         
       
           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
@@ -55,7 +53,8 @@
                     <div class="buttons">
                         <a class="button is-light" href="http://localhost/html/logout.php">
                             Log out
-                        </a>
+                            <span class="is-size-7 has-text-grey">(<?php echo $_SESSION["email"]; ?>)</span>
+            </a>
                     </div>
                 <?php } else { ?>
               <div class="buttons">

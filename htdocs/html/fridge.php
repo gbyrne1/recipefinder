@@ -33,6 +33,7 @@
 	$fridge = $conn->query("CALL fridge_display('$email')");
 	if ($fridge->num_rows > 0){
 		echo "<div class='columns is-multiline'>";
+
 		$group = 'start';
 		while($row = $fridge->fetch_assoc()) {
 			if($group != $row["FoodGroup"]){
@@ -44,10 +45,15 @@
 				echo "<div class='column is-one-third'>";
 				echo "<div class='card card-style is-warning'>";
 				echo "<div class='card-content is-fullwidth is-warning'>";
-				echo "<p class='title'>" . $row["FoodGroup"] . "</p></a>";
+				echo "<p>" . $row["FoodGroup"] . "</p></a>";
 				$group = $row["FoodGroup"];
 			}
-			echo "<p>" . $row["Ingredient"] . "</p>";
+			echo "<p class='title'>" . $row["Ingredient"] . "</p>";
+			echo "<form method='POST' action='delete_ingredient.php'>";
+            echo "<input type='hidden' name='email' value='$email'>";
+            echo "<input type='hidden' name='ingredient' value='" . $row["Ingredient"] . "'>";
+            echo "<button type='submit' class='button is-danger is-outlined'>Delete</button>";
+            echo "</form>";
 		}
 		echo "</div>";
 		echo "</div>";

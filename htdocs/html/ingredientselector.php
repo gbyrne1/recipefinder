@@ -106,9 +106,11 @@
                 $sql = "INSERT IGNORE INTO Fridge (Ingredient, Email) VALUES ('$ingredient', '$email')";
 	        if ($conn->query($sql) === FALSE) {
 		    echo "Error inserting data: " . $conn->error;
-	        }
+	        } }
+            //refresh fridge page
+         
 
-			 }}}
+            }}
              //empty add fridge button clicked
             else {
                 echo "<div class='column is-one-third'>";
@@ -133,7 +135,7 @@
 			// Check if the ingredient array is set
 		  if(isset($_POST["ingredient"])){
 			$selectedIngredients = $_POST["ingredient"];
-			$conn->query("CALL create_criteria()");
+			
             foreach($selectedIngredients as $ingredient){
 				//echo"<h1>$ingredient</h1>";
                 $ingred = mysqli_real_escape_string($conn, $ingredient);
